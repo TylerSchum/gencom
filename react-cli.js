@@ -115,7 +115,7 @@ describe("${name}", () => {
 
   // example
   it('always renders a wrapper div', () => {
-    expect(${lowerName}().find('div).first().children()).toEqual(${lowerName}().children());
+    expect(${lowerName}().find('div').first().children()).toEqual(${lowerName}().children());
   });
 
 })`
@@ -969,7 +969,7 @@ if (args.type) {
 } else {
   fs.writeFileSync(`${parentPath}/${name}/${name}.js`, content);
 }
-if (args.test) {
+if (args.test || args.enzyme) {
   if (args.type) {
     fs.writeFileSync(`${parentPath}/${name}/${name}.test.tsx`, testText);
   } else {
