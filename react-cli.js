@@ -9,7 +9,7 @@ let args;
 
 try {
   args = minimist(process.argv.slice(2), {
-    boolean: ['functional', 'stateful', 'hooks', 'material', 'scss', 'css', 'modules', 'test', 'type', 'enzyme'],
+    boolean: ['functional', 'stateful', 'hooks', 'material', 'scss', 'css', 'modules', 'test', 'type', 'enzyme', 'help'],
     alias: { h: 'hooks', f: 'functional', s: 'stateful', m: 'material', t: 'test', e: 'enzyme' },
     '--': true,
     stopEarly: false,
