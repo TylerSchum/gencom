@@ -90,11 +90,11 @@ if (args.enzyme) {
   const lowerName = name[0].toLowerCase() + name.slice(1);
   testText = `import React from 'react';
 import { mount } from 'enzyme';
-import ${name} from './name';
+import ${name} from './${name}';
 
 describe("${name}", () => {
-  let props;
-  let mounted${name};
+  let props: any;
+  let mounted${name}: ${name};
   const ${lowerName} = () => {
     if (!mounted${name}) {
       mounted${name} = mount(
@@ -334,7 +334,7 @@ export default ${name};`
   } else if (args.material) {
     if (args.type) {
       content = `import React, { Component } from 'react';
-import { withStyles, createStyles, WithStyles } from '@material-ui/core/styles';
+import { withStyles, createStyles, WithStyles, Theme } from '@material-ui/core/styles';
 
 const styles = (theme: Theme) => createStyles({
 
@@ -498,7 +498,7 @@ import './${name}.css';
 
 interface Props {}
 
-const ${name}: FunctionComponent = (props: Props) => {
+const ${name}: FunctionComponent<Props> = (props: Props) => {
   const [data, setData] = useState('defaultData');
 
   useEffect(() => {
@@ -551,7 +551,7 @@ import './${name}.scss';
 
 interface Props {}
 
-const ${name}: FunctionComponent = (props: Props) => {
+const ${name}: FunctionComponent<Props> = (props: Props) => {
   const [data, setData] = useState('defaultData');
 
   useEffect(() => {
@@ -604,7 +604,7 @@ import classes from './${name}.module.css';
 
 interface Props {}
 
-const ${name}: FunctionComponent = (props: Props) => {
+const ${name}: FunctionComponent<Props> = (props: Props) => {
   const [data, setData] = useState('defaultData');
 
   useEffect(() => {
@@ -652,15 +652,15 @@ export default ${name};`
   } else if (args.material) {
     if (args.type) {
       content = `import React, { useState, useEffect, FunctionComponent } from 'react';
-import { withStyles, createStyles, WithStyles } from '@material-ui/core';
+import { withStyles, createStyles, WithStyles, Theme } from '@material-ui/core';
 
-const styles = theme: Theme => createStyles({
+const styles = (theme: Theme) => createStyles({
 
 });
 
 interface Props extends WithStyles<typeof styles> {}
 
-const ${name}: FunctionComponent = (props: Props) => {
+const ${name}: FunctionComponent<Props> = (props: Props) => {
   const { classes } = props;
   const [data, setData] = useState('defaultData');
 
@@ -717,7 +717,7 @@ export default withStyles(styles)(${name});`
 
 interface Props {}
 
-const ${name}: FunctionComponent = (props: Props) => {
+const ${name}: FunctionComponent<Props> = (props: Props) => {
   const [data, setData] = useState('defaultData');
 
   useEffect(() => {
@@ -770,7 +770,7 @@ import classes from './${name}.module.scss';
     
 interface Props {}
 
-const ${name}: FunctionComponent = (props: Props) => {
+const ${name}: FunctionComponent<Props> = (props: Props) => {
 return (
   <>
 
@@ -800,7 +800,7 @@ import classes from './${name}.module.css';
     
 interface Props {}
 
-const ${name}: FunctionComponent = (props: Props) => {
+const ${name}: FunctionComponent<Props> = (props: Props) => {
 return (
   <>
 
@@ -828,7 +828,7 @@ export default ${name};`
       content = `import React, { FunctionComponent } from 'react';
 import './${name}.scss';
     
-const ${name}: FunctionComponent = (props: Props) => {
+const ${name}: FunctionComponent<Props> = (props: Props) => {
 return (
   <>
 
@@ -858,7 +858,7 @@ import './${name}.css';
     
 interface Props {}
 
-const ${name}: FunctionComponent = (props: Props) => {
+const ${name}: FunctionComponent<Props> = (props: Props) => {
 return (
   <>
 
@@ -884,15 +884,15 @@ export default ${name};`
   } else if (args.material) {
     if (args.type) {
       content = `import React, { FunctionComponent } from 'react';
-import { withStyles, createStyles, WithStyles } from '@material-ui/core/styles';
+import { withStyles, createStyles, WithStyles, Theme } from '@material-ui/core/styles';
 
-const styles = theme: Theme => createStyles({
+const styles = (theme: Theme) => createStyles({
 
 });
 
 interface Props extends WithStyles<typeof styles> {}
 
-const ${name}: FunctionComponent = (props: Props) => {
+const ${name}: FunctionComponent<Props> = (props: Props) => {
 return (
   <>
 
@@ -925,7 +925,7 @@ export default withStyles(styles)(${name});`
     
 interface Props {}
 
-const ${name}: FunctionComponent = (props: Props) => {
+const ${name}: FunctionComponent<Props> = (props: Props) => {
 return (
 
 );
@@ -971,7 +971,7 @@ if (args.type) {
 }
 if (args.test || args.enzyme) {
   if (args.type) {
-    fs.writeFileSync(`${parentPath}/${name}/${name}.test.tsx`, testText);
+    fs.writeFileSync(`${parentPath}/${name}/${name}.test.ts`, testText);
   } else {
     fs.writeFileSync(`${parentPath}/${name}/${name}.test.js`, testText);
   }
