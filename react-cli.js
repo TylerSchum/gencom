@@ -88,13 +88,14 @@ let testText;
 
 if (args.enzyme) {
   const lowerName = name[0].toLowerCase() + name.slice(1);
-  testText = `import React from 'react';
+  if (args.type) {
+    testText = `import React from 'react';
 import { mount } from 'enzyme';
 import ${name} from './${name}';
 
 describe("${name}", () => {
   let props: any;
-  let mounted${name}: ${name};
+  let mounted${name}: any;
   const ${lowerName} = () => {
     if (!mounted${name}) {
       mounted${name} = mount(
@@ -119,6 +120,39 @@ describe("${name}", () => {
   });
 
 })`
+  } else {
+    testText = `import React from 'react';
+import { mount } from 'enzyme';
+import ${name} from './${name}';
+
+describe("${name}", () => {
+  let props;
+  let mounted${name};
+  const ${lowerName} = () => {
+    if (!mounted${name}) {
+      mounted${name} = mount(
+        <${name} {...props} />
+      )
+    }
+    return mounted${name};
+  }
+
+  beforeEach(() => {
+    props = {
+
+    }
+    mounted${name} = undefined;
+  })
+
+  // Tests go here...
+
+  // example
+  it('always renders a wrapper div', () => {
+    expect(${lowerName}().find('div').first().children()).toEqual(${lowerName}().children());
+  });
+
+})`
+  }
 } else {
   testText = `import React from 'react';
   import ReactDOM from 'react-dom';
@@ -971,7 +1005,7 @@ if (args.type) {
 }
 if (args.test || args.enzyme) {
   if (args.type) {
-    fs.writeFileSync(`${parentPath}/${name}/${name}.test.ts`, testText);
+    fs.writeFileSync(`${parentPath}/${name}/${name}.test.tsx`, testText);
   } else {
     fs.writeFileSync(`${parentPath}/${name}/${name}.test.js`, testText);
   }
