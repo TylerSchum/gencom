@@ -9,8 +9,8 @@ let args;
 
 try {
   args = minimist(process.argv.slice(2), {
-    boolean: ['functional', 'stateful', 'hooks', 'material', 'scss', 'css', 'modules', 'test', 'type', 'enzyme', 'help'],
-    alias: { h: 'hooks', f: 'functional', s: 'stateful', m: 'material', t: 'test', e: 'enzyme' },
+    boolean: ['functional', 'stateful', 'hooks', 'material', 'scss', 'css', 'modules', 'test', 'type', 'enzyme', 'help', 'version'],
+    alias: { h: 'hooks', f: 'functional', s: 'stateful', m: 'material', t: 'test', e: 'enzyme', v: 'version' },
     '--': true,
     stopEarly: false,
     unknown: function (param) {
@@ -33,6 +33,7 @@ Usage:
 
 Options:
     --help: show help
+    -v or --version: show gencom version
     -f or --functional: makes a functional, stateless component. This is default.
     -s or --stateful: makes a class, or stateful component.
     -h or --hooks: makes functional component with useState.
@@ -48,6 +49,14 @@ Options:
     --scss and --modules together will create a .module.scss file instead.
     If no path is supplied, it will default to ./src/
 `;
+
+if (args.version) {
+  const version = require('./package.json').version;
+  const mostRecent = require('child_process').execSync("npm view gencom version").toString();
+  console.log(`    Installed: ${version}`);
+  console.log(`    Latest: ${mostRecent}`);
+  return;
+}
 
 function upperCamelCase(string) {
   const camelCased = string.replace(/-([a-z])/g, function (g) {
@@ -78,7 +87,7 @@ if ((args.css && args.scss) || (args.css && args.material) || (args.scss && args
 
 if (!name) {
   console.log('A component name must be supplied, exiting...');
-  console.log(helperText);
+  console.log(`Use -h or --help for help.`);
   return;
 }
 

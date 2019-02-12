@@ -3,7 +3,7 @@
   "bin": {
     "rgen": "./react-cli.js"
   },
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "A cli tool to generate react components.",
   "main": "./react-cli.js",
   "scripts": {
@@ -12,6 +12,7 @@
   "author": "Tyler Schum",
   "license": "ISC",
   "dependencies": {
+    "child_process": "^1.0.2",
     "fs": "0.0.1-security",
     "minimist": "^1.2.0"
   }
