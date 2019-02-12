@@ -446,7 +446,7 @@ import classes from './${name}.module.scss';
 
 interface Props {}
 
-const ${name}: FunctionComponent<Props> = props: Props => {
+const ${name}: FunctionComponent<Props> = (props: Props) => {
   const [data, setData] = useState('defaultData');
 
   useEffect(() => {
@@ -498,7 +498,7 @@ import './${name}.css';
 
 interface Props {}
 
-const ${name}: FunctionComponent = props: Props => {
+const ${name}: FunctionComponent = (props: Props) => {
   const [data, setData] = useState('defaultData');
 
   useEffect(() => {
@@ -551,7 +551,7 @@ import './${name}.scss';
 
 interface Props {}
 
-const ${name}: FunctionComponent = props: Props => {
+const ${name}: FunctionComponent = (props: Props) => {
   const [data, setData] = useState('defaultData');
 
   useEffect(() => {
@@ -604,7 +604,7 @@ import classes from './${name}.module.css';
 
 interface Props {}
 
-const ${name}: FunctionComponent = props: Props => {
+const ${name}: FunctionComponent = (props: Props) => {
   const [data, setData] = useState('defaultData');
 
   useEffect(() => {
@@ -660,7 +660,7 @@ const styles = theme: Theme => createStyles({
 
 interface Props extends WithStyles<typeof styles> {}
 
-const ${name}: FunctionComponent = props: Props => {
+const ${name}: FunctionComponent = (props: Props) => {
   const { classes } = props;
   const [data, setData] = useState('defaultData');
 
@@ -717,7 +717,7 @@ export default withStyles(styles)(${name});`
 
 interface Props {}
 
-const ${name}: FunctionComponent = props: Props => {
+const ${name}: FunctionComponent = (props: Props) => {
   const [data, setData] = useState('defaultData');
 
   useEffect(() => {
@@ -770,7 +770,7 @@ import classes from './${name}.module.scss';
     
 interface Props {}
 
-const ${name}: FunctionComponent = props: Props => {
+const ${name}: FunctionComponent = (props: Props) => {
 return (
   <>
 
@@ -800,7 +800,7 @@ import classes from './${name}.module.css';
     
 interface Props {}
 
-const ${name}: FunctionComponent = props: Props => {
+const ${name}: FunctionComponent = (props: Props) => {
 return (
   <>
 
@@ -828,7 +828,7 @@ export default ${name};`
       content = `import React, { FunctionComponent } from 'react';
 import './${name}.scss';
     
-const ${name}: FunctionComponent = props: Props => {
+const ${name}: FunctionComponent = (props: Props) => {
 return (
   <>
 
@@ -858,7 +858,7 @@ import './${name}.css';
     
 interface Props {}
 
-const ${name}: FunctionComponent = props: Props => {
+const ${name}: FunctionComponent = (props: Props) => {
 return (
   <>
 
@@ -892,7 +892,7 @@ const styles = theme: Theme => createStyles({
 
 interface Props extends WithStyles<typeof styles> {}
 
-const ${name}: FunctionComponent = props: Props => {
+const ${name}: FunctionComponent = (props: Props) => {
 return (
   <>
 
@@ -925,7 +925,7 @@ export default withStyles(styles)(${name});`
     
 interface Props {}
 
-const ${name}: FunctionComponent = props: Props => {
+const ${name}: FunctionComponent = (props: Props) => {
 return (
 
 );
