@@ -19,6 +19,7 @@
 
 ###Options:
     --help: show help
+    -v or --version: show installed version vs current latest.
     -f or --functional: makes a functional, stateless component. This is default.
     -s or --stateful: makes a class, or stateful component.
     -h or --hooks: makes functional component with useState.
