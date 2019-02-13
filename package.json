@@ -7,7 +7,7 @@
   "description": "A cli tool to generate react components.",
   "main": "./react-cli.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "author": "Tyler Schum",
   "license": "ISC",
@@ -24,5 +24,8 @@
     "test",
     "scaffold",
     "generator"
-  ]
+  ],
+  "devDependencies": {
+    "jest": "^24.1.0"
+  }
 }

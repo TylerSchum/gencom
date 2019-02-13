@@ -4,7 +4,20 @@ const fs = require('fs');
 const path = require('path');
 const minimist = require('minimist');
 
-const cwd = process.cwd();
+// ================== Utility Functions ==================
+function upperCamelCase(string) {
+  const camelCased = string.replace(/-([a-z])/g, function (g) {
+    return g[1].toUpperCase()
+  });
+  return `${camelCased.slice(0, 1).toUpperCase()}${camelCased.slice(1)}`
+}
+
+function getDirectories(srcpath) {
+  return fs.readdirSync(srcpath)
+    .map(file => path.join(srcpath, file))
+    .filter(path => fs.statSync(path).isDirectory());
+}
+// =======================================================
 
 function checkHelp(args) {
   return args.help === true;
@@ -45,19 +58,6 @@ function printVersion() {
   const mostRecent = require('child_process').execSync("npm view gencom version").toString();
   return `    Installed: ${version}
     Latest: ${mostRecent}`;
-}
-
-function upperCamelCase(string) {
-  const camelCased = string.replace(/-([a-z])/g, function (g) {
-    return g[1].toUpperCase()
-  });
-  return `${camelCased.slice(0, 1).toUpperCase()}${camelCased.slice(1)}`
-}
-
-function getDirectories(srcpath) {
-  return fs.readdirSync(srcpath)
-    .map(file => path.join(srcpath, file))
-    .filter(path => fs.statSync(path).isDirectory());
 }
 
 function checkTypeConflicts(args) {
@@ -193,8 +193,11 @@ function createImports(args, name) {
   } else if (args.stateful) {
     content += `import React, { Component } from 'react';
 `;
-  } else {
+  } else if (args.type) {
     content += `import React, { FunctionComponent } from 'react';
+`;
+  } else {
+    content += `import React from 'react';
 `;
   }
 
@@ -251,10 +254,6 @@ function createInterfaces(args) {
       content += `interface Props extends WithStyles<typeof styles> {}
 
 `;
-    } else if (args.stateful) {
-      content += `interface Props {}
-
-`;
     } else {
       content += `interface Props {}
 
@@ -275,6 +274,7 @@ function createBody(args, name) {
   if (args.type) {
     if (args.stateful) {
       content += `class ${name} extends Component<Props, State> {
+
   constructor(props: Props) {
     super(props);
     this.state: State = {
@@ -282,11 +282,13 @@ function createBody(args, name) {
     }
   }
 
-  render() {
-    ${ args.material ? `const { classes } = this.props;` : ''}
+  render() {${ args.material ? `
+
+  const { classes } = this.props;` : ''}
+
     return (
       <>
-        
+
       </>
     );
   }
@@ -294,8 +296,10 @@ function createBody(args, name) {
   
 `;
     } else if (args.hooks) {
-      content += `const ${name}: FunctionComponent<Props> = (props: Props) => {
-  ${ args.material ? `const { classes } = this.props;` : ''}
+      content += `const ${name}: FunctionComponent<Props> = (props: Props) => {${ args.material ? `
+
+  const { classes } = props;
+` : ''}
 
   const [data, setData] = useState('');
 
@@ -317,8 +321,9 @@ function createBody(args, name) {
   
 `;
     } else {
-      content += `const ${name}: FunctionComponent<Props> = (props: Props) => {
-  ${ args.material ? `const { classes } = this.props;` : ''}
+      content += `const ${name}: FunctionComponent<Props> = (props: Props) => {${ args.material ? `
+
+  const { classes } = props;` : ''}
 
   return (
     <>
@@ -332,6 +337,7 @@ function createBody(args, name) {
   } else {
     if (args.stateful) {
       content += `class ${name} extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -339,8 +345,10 @@ function createBody(args, name) {
     }
   }
 
-  render() {
-    ${ args.material ? `const { classes } = this.props;` : ''}
+  render() {${ args.material ? `
+
+    const { classes } = this.props;` : ''}
+
     return (
       <>
 
@@ -351,8 +359,9 @@ function createBody(args, name) {
   
 `;
     } else if (args.hooks) {
-      content += `const ${name} = (props) => {
-  ${ args.material ? `const { classes } = this.props;` : ''}
+      content += `const ${name} = (props) => {${ args.material ? `
+
+  const { classes } = props;` : ''}
 
   const [data, setData] = useState('');
 
@@ -374,8 +383,9 @@ function createBody(args, name) {
 
 `;
     } else {
-      content += `const ${name} = (props) => {
-  ${ args.material ? `const { classes } = this.props;` : ''}
+      content += `const ${name} = (props) => {${ args.material ? `
+
+  const { classes } = props;` : ''}
 
   return (
     <>
@@ -454,7 +464,7 @@ function makeFiles(args, name, parentPath, content, testText) {
   }
 }
 
-function checkProblems(args) {
+function checkProblems(args, name, parentPath) {
   if (!args) {
     return true;
   }
@@ -464,10 +474,12 @@ function checkProblems(args) {
   if (checkVersion(args)) {
     return printVersion();
   }
-  if (checkSourceFolder()) {
-    return printNoSourceFolder();
+  if (!args.dev) {
+    if (checkSourceFolder()) {
+      return printNoSourceFolder();
+    }
   }
-  if (checkMissingName(args)) {
+  if (checkMissingName(name)) {
     return missingName();
   }
   if (checkStyleConflicts(args)) {
@@ -476,7 +488,7 @@ function checkProblems(args) {
   if (checkTypeConflicts(args)) {
     return typeConflicts();
   }
-  if (checkParentPath(args)) {
+  if (checkParentPath(parentPath)) {
     return printBadParentPath();
   }
   return false;
@@ -486,7 +498,7 @@ function getArgs() {
   let args;
   try {
     args = minimist(process.argv.slice(2), {
-      boolean: ['functional', 'stateful', 'hooks', 'material', 'scss', 'css', 'modules', 'test', 'type', 'enzyme', 'help', 'version'],
+      boolean: ['functional', 'stateful', 'hooks', 'material', 'scss', 'css', 'modules', 'test', 'type', 'enzyme', 'help', 'version', 'dev'],
       alias: { h: 'hooks', f: 'functional', s: 'stateful', m: 'material', t: 'test', e: 'enzyme', v: 'version' },
       '--': true,
       stopEarly: false,
@@ -504,21 +516,21 @@ function getArgs() {
   return args;
 }
 
-function main() {
-  let args = getArgs();
+function main(testArgs) {
+  let args = testArgs ? testArgs : getArgs();
   if (args.error) {
     console.log(args.error);
     return;
   }
-  let problem = checkProblems(args);
+  const [name, parentPath = './src/'] = args._;
+  let problem = checkProblems(args, name, parentPath);
   if (problem) {
     console.log(problem);
     return;
   }
-  const [name, parentPath = './src/'] = args._;
   const fixedName = upperCamelCase(name);
   let content = '';
-  let testText = createTest(args, fixedName);
+  let testText = '';
   if (checkTest(args)) {
     testText = createTest(args, fixedName);
   }
@@ -527,13 +539,18 @@ function main() {
   content += createInterfaces(args);
   content += createBody(args, fixedName);
   content += createExport(args, fixedName);
-  const folderProblem = makeFolder(parentPath, fixedName);
-  if (folderProblem) {
-    console.log(folderProblem);
-    return;
+  if (!args.dev) {
+    const folderProblem = makeFolder(parentPath, fixedName);
+    if (folderProblem) {
+      console.log(folderProblem);
+      return;
+    }
+    makeFiles(args, fixedName, parentPath, content, testText);
   }
-  makeFiles(args, fixedName, parentPath, content, testText);
-  console.log(`${name} component has been created! Happy Coding!`)
+  console.log(`${name} component has been created! Happy Coding!`);
+  return content;
 }
 
 main();
+
+module.exports = {main, createTest};
