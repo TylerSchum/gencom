@@ -173,627 +173,118 @@ describe("${name}", () => {
   });`
 }
 
-if (args.stateful) {
-  if (args.modules && args.scss) {
-    if (args.type) {
-      content = `import React, { Component } from 'react';
-import classes from './${name}.module.scss';
-
-interface Props {}
-
-interface State {}
-
-class ${name} extends Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state: State = {
-
-    }
-  }
-
-  render() {
-    return (
-      <>
-
-      </>
-    );
-  }
-}
-
-export default ${name};`
-    } else {
-      content = `import React, { Component } from 'react';
-import classes from './${name}.module.scss';
-
-class ${name} extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-
-    }
-  }
-
-  render() {
-    return (
-      <>
-
-      </>
-    );
-  }
-}
-
-export default ${name};`
-    }
-  } else if (args.css) {
-    if (args.type) {
-      content = `import React, { Component } from 'react';
-import './${name}.css';
-
-interface Props {}
-
-interface State {}
-  
-class ${name} extends Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state: State = {
-
-    }
-  }
-
-  render() {
-    return (
-      <>
-
-      </>
-    );
-  }
-}
-
-export default ${name};`
-    } else {
-      content = `import React, { Component } from 'react';
-import './${name}.css';
-  
-class ${name} extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-
-    }
-  }
-
-  render() {
-    return (
-      <>
-
-      </>
-    );
-  }
-}
-
-export default ${name};`
-    }
-  } else if (args.scss) {
-    if (args.type) {
-      content = `import React, { Component } from 'react';
-import './${name}.scss';
-
-interface Props {}
-
-interface State {}
-  
-class ${name} extends Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state: State = {
-
-    }
-  }
-
-  render() {
-    return (
-      <>
-
-      </>
-    );
-  }
-}
-
-export default ${name};`
-    } else {
-      content = `import React, { Component } from 'react';
-import './${name}.scss';
-  
-class ${name} extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-
-    }
-  }
-
-  render() {
-    return (
-      <>
-
-      </>
-    );
-  }
-}
-
-export default ${name};`
-    }
-  } else if (args.modules) {
-    if (args.type) {
-      content = `import React, { Component } from 'react';
-import classes from './${name}.module.css';
-
-interface Props {}
-
-interface State {}
-
-class ${name} extends Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state: State = {
-
-    }
-  }
-
-  render() {
-    return (
-      <>
-
-      </>
-    );
-  }
-}
-
-export default ${name};`
-    } else {
-      content = `import React, { Component } from 'react';
-import classes from './${name}.module.css';
-  
-class ${name} extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-
-    }
-  }
-
-  render() {
-    return (
-      <>
-
-      </>
-    );
-  }
-}
-
-export default ${name};`
-    }
-  } else if (args.material) {
-    if (args.type) {
-      content = `import React, { Component } from 'react';
-import { withStyles, createStyles, WithStyles, Theme } from '@material-ui/core/styles';
-
-const styles = (theme: Theme) => createStyles({
-
-});
-
-interface Props extends WithStyles<typeof styles> {}
-  
-class ${name} extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-
-    }
-  }
-
-  render() {
-    const { classes } = this.props;
-    return (
-      <>
-
-      </>
-    );
-  }
-}
-
-export default withStyles(styles)(${name});`
-    } else {
-      content = `import React, { Component } from 'react';
-import { withStyles } from '@material-ui/core/styles';
-  
-const styles = theme => ({
-
-});
-
-class ${name} extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-
-    }
-  }
-
-  render() {
-    const { classes } = this.props;
-    return (
-      <>
-
-      </>
-    );
-  }
-}
-
-export default withStyles(styles)(${name});`
-    }
-  } else {
-    if (args.type) {
-      content = `import React, { Component } from 'react';
-
-interface Props {}
-
-interface State {}
-
-class ${name} extends Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state: State = {
-
-    }
-  }
-
-  render() {
-    return (
-      <>
-
-      </>
-    );
-  }
-}
-
-export default ${name};`
-    } else {
-      content = `import React, { Component } from 'react';
-     
-class ${name} extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-
-    }
-  }
-
-  render() {
-    return (
-      <>
-
-      </>
-    );
-  }
-}
-
-export default ${name};`
-    }
-  }
+if (args.type && args.hooks) {
+  content = `import React, { FunctionComponent, useState, useEffect } from 'react';
+`;
 } else if (args.hooks) {
-  if (args.scss && args.modules) {
-    if (args.type) {
-      content = `import React, { useState, useEffect, FunctionComponent } from 'react';
-import classes from './${name}.module.scss';
-
-interface Props {}
-
-const ${name}: FunctionComponent<Props> = (props: Props) => {
-  const [data, setData] = useState('defaultData');
-
-  useEffect(() => {
-    // do something when component mounts or updates
-
-    return () => {
-      // do something when component dismounts or will rerender (run cleanup)
-
-    }
-  });
-
-  return (
-    <>
-
-    </>
-  );
+  content = `import React, { useState, useEffect } from 'react';
+`;
+} else if (args.stateful) {
+  content = `import React, { Component } from 'react';
+`;
+} else {
+  content = `import React, { FunctionComponent } from 'react';
+`;
 }
 
-export default ${name};`
-    } else {
-      content = `import React, { useState, useEffect } from 'react';
-import classes from './${name}.module.scss';
-
-const ${name} = props => {
-  const [data, setData] = useState('defaultData');
-
-  useEffect(() => {
-    // do something when component mounts or updates
-
-    return () => {
-      // do something when component dismounts or will rerender (run cleanup)
-
-    }
-  });
-
-  return (
-    <>
-
-    </>
-  );
-}
-
-export default ${name};`
-    }
-  } else if (args.css) {
-    if (args.type) {
-      content = `import React, { useState, useEffect, FunctionComponent } from 'react';
-import './${name}.css';
-
-interface Props {}
-
-const ${name}: FunctionComponent<Props> = (props: Props) => {
-  const [data, setData] = useState('defaultData');
-
-  useEffect(() => {
-    // do something when component mounts or updates
-
-    return () => {
-      // do something when component dismounts or will rerender (run cleanup)
-
-    }
-  });
-
-  return (
-    <>
-
-    </>
-  );
-}
-
-export default ${name};`
-    } else {
-      content = `import React, { useState, useEffect } from 'react';
-import './${name}.css';
-
-const ${name} = props => {
-  const [data, setData] = useState('defaultData');
-
-  useEffect(() => {
-    // do something when component mounts or updates
-
-    return () => {
-      // do something when component dismounts or will rerender (run cleanup)
-
-    }
-  });
-
-  return (
-    <>
-
-    </>
-  );
-}
-
-export default ${name};`
-    }
-
-  } else if (args.scss) {
-    if (args.type) {
-      content = `import React, { useState, useEffect, FunctionComponent } from 'react';
-import './${name}.scss';
-
-interface Props {}
-
-const ${name}: FunctionComponent<Props> = (props: Props) => {
-  const [data, setData] = useState('defaultData');
-
-  useEffect(() => {
-    // do something when component mounts or updates
-
-    return () => {
-      // do something when component dismounts or will rerender (run cleanup)
-
-    }
-  });
-
-  return (
-    <>
-
-    </>
-  );
-}
-
-export default ${name};`
-    } else {
-      content = `import React, { useState, useEffect } from 'react';
-import './${name}.scss';
-
-const ${name} = props => {
-  const [data, setData] = useState('defaultData');
-
-  useEffect(() => {
-    // do something when component mounts or updates
-
-    return () => {
-      // do something when component dismounts or will rerender (run cleanup)
-
-    }
-  });
-
-  return (
-    <>
-
-    </>
-  );
-}
-
-export default ${name};`
-    }
-
-  } else if (args.modules) {
-    if (args.type) {
-      content = `import React, { useState, useEffect, FunctionComponent } from 'react';
-import classes from './${name}.module.css';
-
-interface Props {}
-
-const ${name}: FunctionComponent<Props> = (props: Props) => {
-  const [data, setData] = useState('defaultData');
-
-  useEffect(() => {
-    // do something when component mounts or updates
-
-    return () => {
-      // do something when component dismounts or will rerender (run cleanup)
-
-    }
-  });
-
-  return (
-    <>
-
-    </>
-  );
-}
-
-export default ${name};`
-    } else {
-      content = `import React, { useState, useEffect } from 'react';
-import classes from './${name}.module.css';
-
-const ${name} = props => {
-  const [data, setData] = useState('defaultData');
-
-  useEffect(() => {
-    // do something when component mounts or updates
-
-    return () => {
-      // do something when component dismounts or will rerender (run cleanup)
-
-    }
-  });
-
-  return (
-    <>
-
-    </>
-  );
-}
-
-export default ${name};`
-    }
-  } else if (args.material) {
-    if (args.type) {
-      content = `import React, { useState, useEffect, FunctionComponent } from 'react';
-import { withStyles, createStyles, WithStyles, Theme } from '@material-ui/core';
-
-const styles = (theme: Theme) => createStyles({
-
-});
-
-interface Props extends WithStyles<typeof styles> {}
-
-const ${name}: FunctionComponent<Props> = (props: Props) => {
-  const { classes } = props;
-  const [data, setData] = useState('defaultData');
-
-  useEffect(() => {
-    // do something when component mounts or updates
-
-    return () => {
-      // do something when component dismounts or will rerender (run cleanup)
-
-    }
-  });
-
-  return (
-    <>
-
-    </>
-  );
-}
-
-export default withStyles(styles)(${name});`
-    } else {
-      content = `import React, { useState, useEffect } from 'react';
-import { withStyles } from '@material-ui/core';
-
-const styles = theme => ({
-
-});
-
-const ${name} = props => {
-  const { classes } = props;
-  const [data, setData] = useState('defaultData');
-
-  useEffect(() => {
-    // do something when component mounts or updates
-
-    return () => {
-      // do something when component dismounts or will rerender (run cleanup)
-      
-    }
-  });
-
-  return (
-    <>
-
-    </>
-  );
-}
-
-export default withStyles(styles)(${name});`
-    }
+if (args.modules && args.scss) {
+  content += `import classes from './${name}.module.scss';
+`;
+} else if (args.modules) {
+  content += `import classes from './${name}.module.css';
+`;
+} else if (args.css) {
+  content += `import './${name}.css'
+`;
+} else if (args.scss) {
+  content += `import './${name}.scss'
+`;
+} else if (args.material) {
+  if (args.type) {
+    content += `import { withStyles, createStyles, WithStyles, Theme } from '@material-ui/core/styles';
+`;
   } else {
-    if (args.type) {
-      content = `import React, { useState, useEffect, FunctionComponent } from 'react';
-
-interface Props {}
-
-const ${name}: FunctionComponent<Props> = (props: Props) => {
-  const [data, setData] = useState('defaultData');
-
-  useEffect(() => {
-    // do something when component mounts or updates
-
-    return () => {
-      // do something when component dismounts or will rerender (run cleanup)
-
-    }
-  });
-
-  return (
-    <>
-
-    </>
-  );
+    content += `import { withStyles } from '@material-ui/core/styles';
+`;
+  }
 }
 
-export default ${name};`
-    } else {
-      content = `import React, { useState, useEffect } from 'react'
+content += `
+`;
+
+if (args.material) {
+  if (args.type) {
+    content += `const styles = (theme: Theme) => createStyles({
+
+});
+
+`;
+  } else {
+    content += `const styles = theme => ({
+
+});
+
+`;
+  }
+}
+
+if (args.type) {
+  if (args.material) {
+    content += `interface Props extends WithStyles<typeof styles> {}
+
+`;
+  } else if (args.stateful) {
+    content += `interface Props {}
+
+`;
+  } else {
+    content += `interface Props {}
+
+`;
+  }
+}
+
+if (args.type && args.stateful) {
+  content += `interface State {}
   
-const ${name} = props => {
-  const [data, setData] = useState('defaultData');
+`;
+}
 
-  useEffect(() => {
-    // do something when component mounts or updates
-
-    return () => {
-      // do something when component dismounts or will rerender (run cleanup)
+if (args.type) {
+  if (args.stateful) {
+    content += `class ${name} extends Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
+    this.state: State = {
 
     }
-  });
+  }
+
+  render() {
+    ${ args.material ? `const { classes } = this.props;` : ''}
+    return (
+      <>
+
+      </>
+    );
+  }
+}
+
+`;
+  } else if (args.hooks) {
+    content += `const ${name}: FunctionComponent<Props> = (props: Props) => {
+  ${ args.material ? `const { classes } = this.props;` : ''}
+
+  const [data, setData] = useState('');
+
+  useEffect(() => {
+    // do something when component mounts or renders
+
+    return () => {
+      // do something when component dismount or is going to rerender
+
+    }
+  })
 
   return (
     <>
@@ -802,191 +293,83 @@ const ${name} = props => {
   );
 }
 
-export default ${name};`
-    }
+`;
+  } else {
+    content += `const ${name}: FunctionComponent<Props> = (props: Props) => {
+  ${ args.material ? `const { classes } = this.props;` : ''}
+
+  return (
+    <>
+
+    </>
+  );
+}
+
+`;
   }
 } else {
-  if (args.modules && args.scss) {
-    if (args.type) {
-      content = `import React, { FunctionComponent } from 'react';
-import classes from './${name}.module.scss';
-    
-interface Props {}
+  if (args.stateful) {
+    content += `class ${name} extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
 
-const ${name}: FunctionComponent<Props> = (props: Props) => {
-return (
-  <>
-
-  </>
-);
-}
-
-export default ${name};`
-    } else {
-      content = `import React from 'react';
-import classes from './${name}.module.scss';
-    
-const ${name} = props => {
-return (
-  <>
-
-  </>
-);
-}
-
-export default ${name};`
-    }
-  } else if (args.modules) {
-    if (args.type) {
-      content = `import React, { FunctionComponent } from 'react';
-import classes from './${name}.module.css';
-    
-interface Props {}
-
-const ${name}: FunctionComponent<Props> = (props: Props) => {
-return (
-  <>
-
-  </>
-);
-}
-
-export default ${name};`
-    } else {
-      content = `import React from 'react';
-import classes from './${name}.module.css';
-    
-const ${name} = props => {
-return (
-  <>
-
-  </>
-);
-}
-
-export default ${name};`
-    }
-  } else if (args.scss) {
-    if (args.type) {
-      content = `import React, { FunctionComponent } from 'react';
-import './${name}.scss';
-    
-const ${name}: FunctionComponent<Props> = (props: Props) => {
-return (
-  <>
-
-  </>
-);
-}
-
-export default ${name};`
-    } else {
-      content = `import React from 'react';
-import './${name}.scss';
-    
-const ${name} = props => {
-return (
-  <>
-
-  </>
-);
-}
-
-export default ${name};`
-    }
-  } else if (args.css) {
-    if (args.type) {
-      content = `import React, { FunctionComponent } from 'react';
-import './${name}.css';
-    
-interface Props {}
-
-const ${name}: FunctionComponent<Props> = (props: Props) => {
-return (
-  <>
-
-  </>
-);
-}
-
-export default ${name};`
-    } else {
-      content = `import React from 'react';
-import './${name}.css';
-    
-const ${name} = props => {
-return (
-  <>
-
-  </>
-);
-}
-
-export default ${name};`
-    }
-  } else if (args.material) {
-    if (args.type) {
-      content = `import React, { FunctionComponent } from 'react';
-import { withStyles, createStyles, WithStyles, Theme } from '@material-ui/core/styles';
-
-const styles = (theme: Theme) => createStyles({
-
-});
-
-interface Props extends WithStyles<typeof styles> {}
-
-const ${name}: FunctionComponent<Props> = (props: Props) => {
-return (
-  <>
-
-  </>
-);
-}
-
-export default withStyles(styles)(${name});`
-    } else {
-      content = `import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
-
-const styles = theme => ({
-
-});
-
-const ${name} = props => {
-return (
-  <>
-
-  </>
-);
-}
-
-export default withStyles(styles)(${name});`
-    }
-  } else {
-    if (args.type) {
-      content = `import React, { FunctionComponent } from 'react';
-    
-interface Props {}
-
-const ${name}: FunctionComponent<Props> = (props: Props) => {
-return (
-
-);
-}
-
-export default ${name};`
-    } else {
-      content = `import React from 'react';
-    
-const ${name} = props => {
-return (
-
-);
-}
-
-export default ${name};`
     }
   }
+
+  render() {
+    ${ args.material ? `const { classes } = this.props;` : ''}
+    return (
+      <>
+
+      </>
+    );
+  }
+}
+
+`;
+  } else if (args.hooks) {
+    content += `const ${name} = (props) => {
+  ${ args.material ? `const { classes } = this.props;` : ''}
+
+  const [data, setData] = useState('');
+
+  useEffect(() => {
+    // do something when component mounts or renders
+
+    return () => {
+      // do something when component dismount or is going to rerender
+
+    }
+  })
+
+  return (
+    <>
+
+    </>
+  );
+}
+
+`;
+  } else {
+    content += `const ${name} = (props) => {
+  ${ args.material ? `const { classes } = this.props;` : ''}
+
+  return (
+    <>
+
+    </>
+  );
+}
+
+`;
+  }
+}
+
+if (args.material) {
+  content += `export default withStyles(styles)(${name});`
+} else {
+  content += `export default ${name};`
 }
 
 if (!fs.existsSync('./src/')) {
