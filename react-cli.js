@@ -50,6 +50,11 @@ Options:
     If no path is supplied, it will default to ./src/
 `;
 
+if (args.help) {
+  console.log(helperText);
+  return;
+}
+
 if (args.version) {
   const version = require('./package.json').version;
   const mostRecent = require('child_process').execSync("npm view gencom version").toString();
