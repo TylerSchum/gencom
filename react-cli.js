@@ -106,26 +106,26 @@ function createTest(args, name) {
   if (args.enzyme) {
     if (args.type) {
       testText += `import React from 'react';
-import { mount } from 'enzyme';
+import { shallow } from 'enzyme';
 import ${name} from './${name}';
 
 describe("${name}", () => {
   let props: any;
-  let mounted${name}: any;
+  let shallow${name}: any;
   const ${lowerName} = () => {
-    if (!mounted${name}) {
-      mounted${name} = mount(
+    if (!shallow${name}) {
+      shallow${name} = shallow(
         <${name} {...props} />
       )
     }
-    return mounted${name};
+    return shallow${name};
   }
 
   beforeEach(() => {
     props = {
 
     }
-    mounted${name} = undefined;
+    shallow${name} = undefined;
   })
 
   // Tests go here...
