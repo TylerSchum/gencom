@@ -3,7 +3,7 @@
   "bin": {
     "rgen": "./react-cli.js"
   },
-  "version": "3.1.0",
+  "version": "3.2.0",
   "description": "A cli tool to generate react components.",
   "main": "./react-cli.js",
   "scripts": {

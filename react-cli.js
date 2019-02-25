@@ -126,7 +126,7 @@ describe("${name}", () => {
 
     }
     shallow${name} = undefined;
-  })
+  });
 
   // Tests go here...
 
@@ -135,7 +135,7 @@ describe("${name}", () => {
     expect(${lowerName}().find('div').first().children()).toEqual(${lowerName}().children());
   });
 
-})`
+});`
     } else {
       testText += `import React from 'react';
 import { mount } from 'enzyme';

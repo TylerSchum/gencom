@@ -33,7 +33,7 @@
 
 ##Examples
 ###Hooks with Material Import and Test File
-    rgen -htm myComponent
+    rgen -hme myComponent
 ###Ouput:
 ####./src/MyComponent/MyComponent.js
     import React, { useState, useEffect } from 'react';
@@ -43,7 +43,7 @@
 
     }
 
-    const ${name} = props => {
+    const MyComponent = props => {
       const { classes } = props;
       const [data, setData] = useState('defaultData');
 
@@ -61,16 +61,39 @@
       );
     }
 
-    export default withStyles(styles)(${name});
+    export default withStyles(styles)(MyComponent);
 
 ####./src/MyComponent/MyComponent.test.js
     import React from 'react';
-    import ReactDOM from 'react-dom';
-    import ${name} from './${name}';
+    import { mount } from 'enzyme';
+    import MyComponent from './MyComponent';
 
-    it('renders without crashing', () => {
-      const div = document.createElement('div');
-      ReactDOM.render(<${name} />, div);
+    describe("MyComponent", () => {
+      let props: any;
+      let mountedMyComponent: any;
+      const myComponent = () => {
+        if (!mountedMyComponent) {
+          mountedMyComponent = mount(
+            <MyComponent {...props} />
+          )
+        }
+        return mountedMyComponent;
+      }
+
+      beforeEach(() => {
+        props = {
+
+        }
+        mountedMyComponent = undefined;
+      });
+
+      // Tests go here...
+
+      // example
+      it('always renders a wrapper div', () => {
+        expect(myComponent().find('div').first().children()).toEqual(myComponent().children());
+      });
+
     });
 
 ----
