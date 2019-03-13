@@ -169,6 +169,107 @@ describe("${name}", () => {
 
 })`
     }
+  } else if (args.rts) {
+    if (!args.type) {
+      `import React from "react";
+import {
+  render,
+  fireEvent,
+  cleanup,
+  waitForElement,
+  wait
+} from "react-testing-library";
+import axios from "axios";
+import "jest-dom/extend-expect";
+
+jest.mock("axios");
+afterEach(cleanup);
+
+describe("", () => {
+  it("example", async () => {
+    const { getByTestId } = render(<SomeComponent {...someProps} />);
+    const someDataId = getByTestId("someDataId");
+    fireEvent.click(someDataId);
+    const someElementExpectedToChange = await waitForElement(() =>
+      getByTestId("someElementExpectedToChange")
+    );
+    expect(someElementExpectedToChange).toHaveTextContent(someTextContent);
+  });
+
+  it("example - api call", async () => {
+    const { getByTestId, getByLabelText } = render(
+      <SomeComponent {...someProps} />
+    );
+    axios.post = jest.fn(() =>
+      Promise.resolve({
+        status: 403
+      })
+    );
+    const someInput = getByLabelText("someInput");
+    fireEvent.change(someInput, { target: { value: "john@test.com" } });
+    const someOtherInput = getByLabelText("someOtherInput");
+    fireEvent.change(someOtherInput, { target: { value: "test" } });
+    const someDataId = getByTestId("someDataId");
+    fireEvent.click(someDataId);
+    await wait(() => getByTestId("someElementExpectedToChange"));
+    const someElementExpectedToChange = getByTestId(
+      "someElementExpectedToChange"
+    ).innerHTML;
+    expect(someElementExpectedToChange).toBe(someValue);
+  });
+});
+      `
+
+    } else {
+      `import React from "react";
+import {
+  render,
+  fireEvent,
+  cleanup,
+  waitForElement,
+  wait
+} from "react-testing-library";
+import axios from "axios";
+import "jest-dom/extend-expect";
+
+jest.mock("axios");
+afterEach(cleanup);
+
+describe("", () => {
+  it("example", async () => {
+    const { getByTestId } = render(<SomeComponent {...someProps} />);
+    const someDataId = getByTestId("someDataId");
+    fireEvent.click(someDataId);
+    const someElementExpectedToChange = await waitForElement(() =>
+      getByTestId("someElementExpectedToChange")
+    );
+    expect(someElementExpectedToChange).toHaveTextContent(someTextContent);
+  });
+
+  it("example - api call", async () => {
+    const { getByTestId, getByLabelText } = render(
+      <SomeComponent {...someProps} />
+    );
+    (axios.post as any) = jest.fn(() =>
+      Promise.resolve({
+        status: 403
+      })
+    );
+    const someInput = getByLabelText("someInput");
+    fireEvent.change(someInput, { target: { value: "john@test.com" } });
+    const someOtherInput = getByLabelText("someOtherInput");
+    fireEvent.change(someOtherInput, { target: { value: "test" } });
+    const someDataId = getByTestId("someDataId");
+    fireEvent.click(someDataId);
+    await wait(() => getByTestId("someElementExpectedToChange"));
+    const someElementExpectedToChange = getByTestId(
+      "someElementExpectedToChange"
+    ).innerHTML;
+    expect(someElementExpectedToChange).toBe(someValue);
+  });
+});
+      `
+    }
   } else {
     testText += `import React from 'react';
 import ReactDOM from 'react-dom';
@@ -498,7 +599,7 @@ function getArgs() {
   let args;
   try {
     args = minimist(process.argv.slice(2), {
-      boolean: ['functional', 'stateful', 'hooks', 'material', 'scss', 'css', 'modules', 'test', 'type', 'enzyme', 'help', 'version', 'dev'],
+      boolean: ['functional', 'stateful', 'hooks', 'material', 'scss', 'css', 'modules', 'test', 'type', 'enzyme', 'help', 'version', 'dev', 'rtl'],
       alias: { h: 'hooks', f: 'functional', s: 'stateful', m: 'material', t: 'test', e: 'enzyme', v: 'version' },
       '--': true,
       stopEarly: false,
