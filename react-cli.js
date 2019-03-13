@@ -179,6 +179,7 @@ import {
   waitForElement,
   wait
 } from "react-testing-library";
+import { Simulate } from "react-dom/test-utils";
 import axios from "axios";
 import "jest-dom/extend-expect";
 
@@ -229,6 +230,7 @@ import {
   waitForElement,
   wait
 } from "react-testing-library";
+import { Simulate } from "react-dom/test-utils";
 import axios from "axios";
 import "jest-dom/extend-expect";
 
