@@ -3,6 +3,9 @@
   "bin": {
     "rgen": "./react-cli.js"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "version": "3.5.0",
   "description": "A cli tool to generate react components.",
   "main": "./react-cli.js",

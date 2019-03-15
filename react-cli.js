@@ -378,7 +378,7 @@ function createBody(args, name) {
     if (args.stateful) {
       content += `class ${name} extends Component<Props, State> {
 
-  constructor(props: Props) {
+  constructor(props) {
     super(props);
     this.state: State = {
       
@@ -399,7 +399,7 @@ function createBody(args, name) {
   
 `;
     } else if (args.hooks) {
-      content += `const ${name}: FunctionComponent<Props> = (props: Props) => {${ args.material ? `
+      content += `const ${name}: FunctionComponent<Props> = (props) => {${ args.material ? `
 
   const { classes } = props;
 ` : ''}
@@ -424,7 +424,7 @@ function createBody(args, name) {
   
 `;
     } else {
-      content += `const ${name}: FunctionComponent<Props> = (props: Props) => {${ args.material ? `
+      content += `const ${name}: FunctionComponent<Props> = (props) => {${ args.material ? `
 
   const { classes } = props;` : ''}
 

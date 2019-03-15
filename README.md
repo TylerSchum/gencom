@@ -14,10 +14,10 @@
 
 ----
 ## Reference
-###Usage:
+### Usage:
     rgen [myComponent || my-component || MyComponent] ./path/to/parent/
 
-###Options:
+### Options:
     --help: show help
     -v or --version: show installed version vs current latest.
     -f or --functional: makes a functional, stateless component. This is default.
@@ -26,16 +26,17 @@
     -m or --material: adds withStyles import from @material-ui.
     -t or --test: makes a test file.
     -e or --enzyme: makes enzyme test file.
+    --rtl: makes react testing library test file
     --type: makes .tsx files instead of .js
     --css: makes and imports a css file.
     --scss: makes and imports a scss file.
     --modules: makes and imports a css file using css-modules.
 
-##Examples
-###Hooks with Material Import and Test File
+## Examples
+### Hooks with Material Import and Test File
     rgen -hme myComponent
-###Ouput:
-####./src/MyComponent/MyComponent.js
+### Ouput:
+#### ./src/MyComponent/MyComponent.js
     import React, { useState, useEffect } from 'react';
     import { withStyles } from '@material-ui/core/styles';
 
@@ -63,7 +64,7 @@
 
     export default withStyles(styles)(MyComponent);
 
-####./src/MyComponent/MyComponent.test.js
+#### ./src/MyComponent/MyComponent.test.js
     import React from 'react';
     import { mount } from 'enzyme';
     import MyComponent from './MyComponent';

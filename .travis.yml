@@ -1,0 +1,19 @@
+language: node_js
+
+stages:
+  -test
+  -publish
+
+jobs:
+  include:
+    -stage: test
+    -script: npm test
+
+before_deploy: "npm version minor"
+
+deploy:
+  provider: npm
+  email: MY_EMAIL
+  api_key: NPM_KEY
+  on:
+    branch: master

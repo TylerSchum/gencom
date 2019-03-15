@@ -531,7 +531,7 @@ test('makes a functional typescript component', () => {
 
 interface Props {}
 
-const Test: FunctionComponent<Props> = (props: Props) => {
+const Test: FunctionComponent<Props> = (props) => {
 
   return (
     <>
@@ -554,7 +554,7 @@ interface State {}
 
 class Test extends Component<Props, State> {
 
-  constructor(props: Props) {
+  constructor(props) {
     super(props);
     this.state: State = {
       
@@ -581,7 +581,7 @@ test('makes a hooks typescript component', () => {
 
 interface Props {}
 
-const Test: FunctionComponent<Props> = (props: Props) => {
+const Test: FunctionComponent<Props> = (props) => {
 
   const [data, setData] = useState('');
 
@@ -613,7 +613,7 @@ import './Test.css'
 
 interface Props {}
 
-const Test: FunctionComponent<Props> = (props: Props) => {
+const Test: FunctionComponent<Props> = (props) => {
 
   return (
     <>
@@ -634,7 +634,7 @@ import './Test.scss'
 
 interface Props {}
 
-const Test: FunctionComponent<Props> = (props: Props) => {
+const Test: FunctionComponent<Props> = (props) => {
 
   return (
     <>
@@ -656,7 +656,7 @@ import classes from './Test.module.css';
 
 interface Props {}
 
-const Test: FunctionComponent<Props> = (props: Props) => {
+const Test: FunctionComponent<Props> = (props) => {
 
   return (
     <>
@@ -678,7 +678,7 @@ import classes from './Test.module.scss';
 
 interface Props {}
 
-const Test: FunctionComponent<Props> = (props: Props) => {
+const Test: FunctionComponent<Props> = (props) => {
 
   return (
     <>
@@ -703,7 +703,7 @@ const styles = (theme: Theme) => createStyles({
 
 interface Props extends WithStyles<typeof styles> {}
 
-const Test: FunctionComponent<Props> = (props: Props) => {
+const Test: FunctionComponent<Props> = (props) => {
 
   const { classes } = props;
 
@@ -730,7 +730,7 @@ interface State {}
 
 class Test extends Component<Props, State> {
 
-  constructor(props: Props) {
+  constructor(props) {
     super(props);
     this.state: State = {
       
@@ -763,7 +763,7 @@ interface State {}
 
 class Test extends Component<Props, State> {
 
-  constructor(props: Props) {
+  constructor(props) {
     super(props);
     this.state: State = {
       
@@ -797,7 +797,7 @@ interface State {}
 
 class Test extends Component<Props, State> {
 
-  constructor(props: Props) {
+  constructor(props) {
     super(props);
     this.state: State = {
       
@@ -831,7 +831,7 @@ interface State {}
 
 class Test extends Component<Props, State> {
 
-  constructor(props: Props) {
+  constructor(props) {
     super(props);
     this.state: State = {
       
@@ -868,7 +868,7 @@ interface State {}
 
 class Test extends Component<Props, State> {
 
-  constructor(props: Props) {
+  constructor(props) {
     super(props);
     this.state: State = {
       
@@ -899,7 +899,7 @@ import './Test.css'
 
 interface Props {}
 
-const Test: FunctionComponent<Props> = (props: Props) => {
+const Test: FunctionComponent<Props> = (props) => {
 
   const [data, setData] = useState('');
 
@@ -931,7 +931,7 @@ import './Test.scss'
 
 interface Props {}
 
-const Test: FunctionComponent<Props> = (props: Props) => {
+const Test: FunctionComponent<Props> = (props) => {
 
   const [data, setData] = useState('');
 
@@ -964,7 +964,7 @@ import classes from './Test.module.css';
 
 interface Props {}
 
-const Test: FunctionComponent<Props> = (props: Props) => {
+const Test: FunctionComponent<Props> = (props) => {
 
   const [data, setData] = useState('');
 
@@ -997,7 +997,7 @@ import classes from './Test.module.scss';
 
 interface Props {}
 
-const Test: FunctionComponent<Props> = (props: Props) => {
+const Test: FunctionComponent<Props> = (props) => {
 
   const [data, setData] = useState('');
 
@@ -1033,7 +1033,7 @@ const styles = (theme: Theme) => createStyles({
 
 interface Props extends WithStyles<typeof styles> {}
 
-const Test: FunctionComponent<Props> = (props: Props) => {
+const Test: FunctionComponent<Props> = (props) => {
 
   const { classes } = props;
 
