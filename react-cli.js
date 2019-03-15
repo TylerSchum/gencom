@@ -169,7 +169,7 @@ describe("${name}", () => {
 
 })`
     }
-  } else if (args.rts) {
+  } else if (args.rtl) {
     if (!args.type) {
       `import React from "react";
 import {
