@@ -1082,26 +1082,26 @@ it('renders without crashing', () => {
 test('makes enzyme test', () => {
   args.enzyme = true;
   expect(createTest(args, 'Test')).toEqual(`import React from 'react';
-import { mount } from 'enzyme';
+import { shallow } from 'enzyme';
 import Test from './Test';
 
 describe("Test", () => {
   let props;
-  let mountedTest;
+  let shallowTest;
   const test = () => {
-    if (!mountedTest) {
-      mountedTest = mount(
+    if (!shallowTest) {
+      shallowTest = shallow(
         <Test {...props} />
       )
     }
-    return mountedTest;
+    return shallowTest;
   }
 
   beforeEach(() => {
     props = {
 
     }
-    mountedTest = undefined;
+    shallowTest = undefined;
   })
 
   // Tests go here...
@@ -1111,7 +1111,7 @@ describe("Test", () => {
     expect(test().find('div').first().children()).toEqual(test().children());
   });
 
-})`)
+});`)
 });
 
 test('makes enzyme test with typescript', () => {
