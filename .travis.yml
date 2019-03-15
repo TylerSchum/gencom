@@ -11,8 +11,6 @@ jobs:
     -stage: test
     -script: npm test
 
-before_deploy: "npm version minor"
-
 deploy:
   provider: npm
   email: MY_EMAIL
