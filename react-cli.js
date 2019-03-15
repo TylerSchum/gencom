@@ -126,7 +126,7 @@ describe("${name}", () => {
 
     }
     shallow${name} = undefined;
-  });
+  })
 
   // Tests go here...
 
@@ -138,26 +138,26 @@ describe("${name}", () => {
 });`
     } else {
       testText += `import React from 'react';
-import { mount } from 'enzyme';
+import { shallow } from 'enzyme';
 import ${name} from './${name}';
 
 describe("${name}", () => {
   let props;
-  let mounted${name};
+  let shallow${name};
   const ${lowerName} = () => {
-    if (!mounted${name}) {
-      mounted${name} = mount(
+    if (!shallow${name}) {
+      shallow${name} = shallow(
         <${name} {...props} />
       )
     }
-    return mounted${name};
+    return shallow${name};
   }
 
   beforeEach(() => {
     props = {
 
     }
-    mounted${name} = undefined;
+    shallow${name} = undefined;
   })
 
   // Tests go here...
@@ -167,7 +167,7 @@ describe("${name}", () => {
     expect(${lowerName}().find('div').first().children()).toEqual(${lowerName}().children());
   });
 
-})`
+});`
     }
   } else if (args.rtl) {
     if (!args.type) {

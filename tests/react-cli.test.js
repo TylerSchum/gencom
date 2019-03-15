@@ -1118,26 +1118,26 @@ test('makes enzyme test with typescript', () => {
   args.enzyme = true;
   args.type = true;
   expect(createTest(args, 'Test')).toEqual(`import React from 'react';
-import { mount } from 'enzyme';
+import { shallow } from 'enzyme';
 import Test from './Test';
 
 describe("Test", () => {
   let props: any;
-  let mountedTest: any;
+  let shallowTest: any;
   const test = () => {
-    if (!mountedTest) {
-      mountedTest = mount(
+    if (!shallowTest) {
+      shallowTest = shallow(
         <Test {...props} />
       )
     }
-    return mountedTest;
+    return shallowTest;
   }
 
   beforeEach(() => {
     props = {
 
     }
-    mountedTest = undefined;
+    shallowTest = undefined;
   })
 
   // Tests go here...
@@ -1147,5 +1147,5 @@ describe("Test", () => {
     expect(test().find('div').first().children()).toEqual(test().children());
   });
 
-})`)
+});`)
 });
