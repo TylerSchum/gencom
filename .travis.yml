@@ -13,7 +13,8 @@ jobs:
 
 deploy:
   provider: npm
-  email: MY_EMAIL
-  api_key: NPM_KEY
+  email: "$MY_EMAIL"
+  api_key: "$NPM_KEY"
+  skip_cleanup: true
   on:
-    branch: master
+    tags: true
