@@ -6,7 +6,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "3.7.0",
+  "version": "3.8.0",
   "description": "A cli tool to generate react components.",
   "main": "./react-cli.js",
   "scripts": {
