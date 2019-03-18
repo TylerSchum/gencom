@@ -1,19 +1,20 @@
 #!/usr/bin/env node
 
-const fs = require('fs');
-const path = require('path');
-const minimist = require('minimist');
+const fs = require("fs");
+const path = require("path");
+const minimist = require("minimist");
 
 // ================== Utility Functions ==================
 function upperCamelCase(string) {
-  const camelCased = string.replace(/-([a-z])/g, function (g) {
-    return g[1].toUpperCase()
+  const camelCased = string.replace(/-([a-z])/g, function(g) {
+    return g[1].toUpperCase();
   });
-  return `${camelCased.slice(0, 1).toUpperCase()}${camelCased.slice(1)}`
+  return `${camelCased.slice(0, 1).toUpperCase()}${camelCased.slice(1)}`;
 }
 
 function getDirectories(srcpath) {
-  return fs.readdirSync(srcpath)
+  return fs
+    .readdirSync(srcpath)
     .map(file => path.join(srcpath, file))
     .filter(path => fs.statSync(path).isDirectory());
 }
@@ -54,14 +55,20 @@ function checkVersion(args) {
 }
 
 function printVersion() {
-  const version = require('./package.json').version;
-  const mostRecent = require('child_process').execSync("npm view gencom version").toString();
+  const version = require("./package.json").version;
+  const mostRecent = require("child_process")
+    .execSync("npm view gencom version")
+    .toString();
   return `    Installed: ${version}
     Latest: ${mostRecent}`;
 }
 
 function checkTypeConflicts(args) {
-  if ((args.functional && args.stateful) || (args.functional && args.hooks) || (args.stateful && args.hooks)) {
+  if (
+    (args.functional && args.stateful) ||
+    (args.functional && args.hooks) ||
+    (args.stateful && args.hooks)
+  ) {
     return true;
   }
   return false;
@@ -69,11 +76,15 @@ function checkTypeConflicts(args) {
 
 function typeConflicts() {
   return `Please use --functional, --stateful, and --hooks separately, exiting...
-Use -h or --help to see a list of options.`
+Use -h or --help to see a list of options.`;
 }
 
 function checkStyleConflicts(args) {
-  if ((args.css && args.scss) || (args.css && args.material) || (args.scss && args.material)) {
+  if (
+    (args.css && args.scss) ||
+    (args.css && args.material) ||
+    (args.scss && args.material)
+  ) {
     return true;
   }
   return false;
@@ -85,7 +96,7 @@ Use -h or --help to see a list of options.`;
 }
 
 function checkMissingName(name) {
-  return typeof(name) === 'undefined';
+  return typeof name === "undefined";
 }
 
 function missingName() {
@@ -94,14 +105,14 @@ Use -h or --help for help.`;
 }
 
 function checkTest(args) {
-  if (args.test || args.enzyme) {
+  if (args.test || args.enzyme || args.rtl) {
     return true;
   }
   return false;
 }
 
 function createTest(args, name) {
-  let testText = '';
+  let testText = "";
   const lowerName = name[0].toLowerCase() + name.slice(1);
   if (args.enzyme) {
     if (args.type) {
@@ -135,7 +146,7 @@ describe("${name}", () => {
     expect(${lowerName}().find('div').first().children()).toEqual(${lowerName}().children());
   });
 
-});`
+});`;
     } else {
       testText += `import React from 'react';
 import { shallow } from 'enzyme';
@@ -167,11 +178,11 @@ describe("${name}", () => {
     expect(${lowerName}().find('div').first().children()).toEqual(${lowerName}().children());
   });
 
-});`
+});`;
     }
   } else if (args.rtl) {
     if (!args.type) {
-      `import React from "react";
+      testText += `import React from "react";
 import {
   render,
   fireEvent,
@@ -219,10 +230,9 @@ describe("", () => {
     expect(someElementExpectedToChange).toBe(someValue);
   });
 });
-      `
-
+      `;
     } else {
-      `import React from "react";
+      testText += `import React from "react";
 import {
   render,
   fireEvent,
@@ -270,7 +280,7 @@ describe("", () => {
     expect(someElementExpectedToChange).toBe(someValue);
   });
 });
-      `
+      `;
     }
   } else {
     testText += `import React from 'react';
@@ -280,13 +290,13 @@ import ${name} from './${name}';
 it('renders without crashing', () => {
   const div = document.createElement('div');
   ReactDOM.render(<${name} />, div);
-});`
+});`;
   }
   return testText;
 }
 
 function createImports(args, name) {
-  let content = '';
+  let content = "";
   if (args.type && args.hooks) {
     content += `import React, { FunctionComponent, useState, useEffect } from 'react';
 `;
@@ -331,7 +341,7 @@ function createImports(args, name) {
 }
 
 function createMaterialStyles(args) {
-  let content = '';
+  let content = "";
   if (args.material) {
     if (args.type) {
       content += `const styles = (theme: Theme) => createStyles({
@@ -351,7 +361,7 @@ function createMaterialStyles(args) {
 }
 
 function createInterfaces(args) {
-  let content = '';
+  let content = "";
   if (args.type) {
     if (args.material) {
       content += `interface Props extends WithStyles<typeof styles> {}
@@ -363,7 +373,7 @@ function createInterfaces(args) {
 `;
     }
   }
-  
+
   if (args.type && args.stateful) {
     content += `interface State {}
 
@@ -373,7 +383,7 @@ function createInterfaces(args) {
 }
 
 function createBody(args, name) {
-  let content = '';
+  let content = "";
   if (args.type) {
     if (args.stateful) {
       content += `class ${name} extends Component<Props, State> {
@@ -385,9 +395,13 @@ function createBody(args, name) {
     }
   }
 
-  render() {${ args.material ? `
+  render() {${
+    args.material
+      ? `
 
-  const { classes } = this.props;` : ''}
+  const { classes } = this.props;`
+      : ""
+  }
 
     return (
       <>
@@ -399,10 +413,14 @@ function createBody(args, name) {
   
 `;
     } else if (args.hooks) {
-      content += `const ${name}: FunctionComponent<Props> = (props) => {${ args.material ? `
+      content += `const ${name}: FunctionComponent<Props> = (props) => {${
+        args.material
+          ? `
 
   const { classes } = props;
-` : ''}
+`
+          : ""
+      }
 
   const [data, setData] = useState('');
 
@@ -424,9 +442,13 @@ function createBody(args, name) {
   
 `;
     } else {
-      content += `const ${name}: FunctionComponent<Props> = (props) => {${ args.material ? `
+      content += `const ${name}: FunctionComponent<Props> = (props) => {${
+        args.material
+          ? `
 
-  const { classes } = props;` : ''}
+  const { classes } = props;`
+          : ""
+      }
 
   return (
     <>
@@ -448,9 +470,13 @@ function createBody(args, name) {
     }
   }
 
-  render() {${ args.material ? `
+  render() {${
+    args.material
+      ? `
 
-    const { classes } = this.props;` : ''}
+    const { classes } = this.props;`
+      : ""
+  }
 
     return (
       <>
@@ -462,9 +488,13 @@ function createBody(args, name) {
   
 `;
     } else if (args.hooks) {
-      content += `const ${name} = (props) => {${ args.material ? `
+      content += `const ${name} = (props) => {${
+        args.material
+          ? `
 
-  const { classes } = props;` : ''}
+  const { classes } = props;`
+          : ""
+      }
 
   const [data, setData] = useState('');
 
@@ -486,9 +516,13 @@ function createBody(args, name) {
 
 `;
     } else {
-      content += `const ${name} = (props) => {${ args.material ? `
+      content += `const ${name} = (props) => {${
+        args.material
+          ? `
 
-  const { classes } = props;` : ''}
+  const { classes } = props;`
+          : ""
+      }
 
   return (
     <>
@@ -504,17 +538,17 @@ function createBody(args, name) {
 }
 
 function createExport(args, name) {
-  let content = '';
+  let content = "";
   if (args.material) {
-    content += `export default withStyles(styles)(${name});`
+    content += `export default withStyles(styles)(${name});`;
   } else {
-    content += `export default ${name};`
+    content += `export default ${name};`;
   }
   return content;
 }
 
 function checkSourceFolder() {
-  if (!fs.existsSync('./src/')) {
+  if (!fs.existsSync("./src/")) {
     return true;
   }
   return false;
@@ -557,13 +591,13 @@ function makeFiles(args, name, parentPath, content, testText) {
     }
   }
   if (args.modules && args.scss) {
-    fs.writeFileSync(`${parentPath}/${name}/${name}.module.scss`, '');
+    fs.writeFileSync(`${parentPath}/${name}/${name}.module.scss`, "");
   } else if (args.modules) {
-    fs.writeFileSync(`${parentPath}/${name}/${name}.module.css`, '');
+    fs.writeFileSync(`${parentPath}/${name}/${name}.module.css`, "");
   } else if (args.scss) {
-    fs.writeFileSync(`${parentPath}/${name}/${name}.scss`, '');
+    fs.writeFileSync(`${parentPath}/${name}/${name}.scss`, "");
   } else if (args.css) {
-    fs.writeFileSync(`${parentPath}/${name}/${name}.css`, '');
+    fs.writeFileSync(`${parentPath}/${name}/${name}.css`, "");
   }
 }
 
@@ -601,12 +635,35 @@ function getArgs() {
   let args;
   try {
     args = minimist(process.argv.slice(2), {
-      boolean: ['functional', 'stateful', 'hooks', 'material', 'scss', 'css', 'modules', 'test', 'type', 'enzyme', 'help', 'version', 'dev', 'rtl'],
-      alias: { h: 'hooks', f: 'functional', s: 'stateful', m: 'material', t: 'test', e: 'enzyme', v: 'version' },
-      '--': true,
+      boolean: [
+        "functional",
+        "stateful",
+        "hooks",
+        "material",
+        "scss",
+        "css",
+        "modules",
+        "test",
+        "type",
+        "enzyme",
+        "help",
+        "version",
+        "dev",
+        "rtl"
+      ],
+      alias: {
+        h: "hooks",
+        f: "functional",
+        s: "stateful",
+        m: "material",
+        t: "test",
+        e: "enzyme",
+        v: "version"
+      },
+      "--": true,
       stopEarly: false,
-      unknown: function (param) {
-        if (param[0] === '-') {
+      unknown: function(param) {
+        if (param[0] === "-") {
           throw "Unknown param: '" + param + "' passed to rgen.";
           return false;
         }
@@ -614,7 +671,7 @@ function getArgs() {
       }
     });
   } catch (e) {
-    return { error: e }
+    return { error: e };
   }
   return args;
 }
@@ -625,15 +682,15 @@ function main(testArgs) {
     console.log(args.error);
     return;
   }
-  const [name, parentPath = './src/'] = args._;
+  const [name, parentPath = "./src/"] = args._;
   let problem = checkProblems(args, name, parentPath);
   if (problem) {
     console.log(problem);
     return;
   }
   const fixedName = upperCamelCase(name);
-  let content = '';
-  let testText = '';
+  let content = "";
+  let testText = "";
   if (checkTest(args)) {
     testText = createTest(args, fixedName);
   }
@@ -656,4 +713,4 @@ function main(testArgs) {
 
 main();
 
-module.exports = {main, createTest};
+module.exports = { main, createTest };
