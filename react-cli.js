@@ -549,7 +549,7 @@ function makeFiles(args, name, parentPath, content, testText) {
   } else {
     fs.writeFileSync(`${parentPath}/${name}/${name}.js`, content);
   }
-  if (args.test || args.enzyme) {
+  if (args.test || args.enzyme || args.rtl) {
     if (args.type) {
       fs.writeFileSync(`${parentPath}/${name}/${name}.test.tsx`, testText);
     } else {
